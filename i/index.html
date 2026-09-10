@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dołącz do mnie w Novie</title>
+<meta name="description" content="Nova — mapa Twojego życia. Odkrywaj miasto, zbieraj pola i bądź ze znajomymi na żywo. Pobierz za darmo.">
+
+<!-- Open Graph: this is what turns the link into an app card in WhatsApp,
+     Messenger, iMessage, Signal, Discord and Instagram instead of raw text. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Nova">
+<meta property="og:title" content="Dołącz do mnie w Novie">
+<meta property="og:description" content="Odkrywaj miasto, zbieraj pola i bądź ze znajomymi na żywo. Pobierz Novę za darmo.">
+<meta property="og:url" content="https://adrianciupek.github.io/nova-legal/i/">
+<meta property="og:image" content="https://adrianciupek.github.io/nova-legal/og-invite.jpg">
+<meta property="og:image:secure_url" content="https://adrianciupek.github.io/nova-legal/og-invite.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Nova — dołącz do mnie">
+<meta property="og:locale" content="pl_PL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Dołącz do mnie w Novie">
+<meta name="twitter:description" content="Odkrywaj miasto, zbieraj pola i bądź ze znajomymi na żywo.">
+<meta name="twitter:image" content="https://adrianciupek.github.io/nova-legal/og-invite.jpg">
+<meta name="theme-color" content="#06070C">
+
+<!-- Native app banner on iOS Safari once the App Store build is live.
+     <meta name="apple-itunes-app" content="app-id=XXXXXXXXX"> -->
+
+<style>
+  :root{
+    --void:#06070C; --deep:#0B0D13; --surface:#151821; --elevated:#1F232E;
+    --primary:#2F6BFF; --secondary:#8B5CFF; --tertiary:#3DE1FF;
+    --text:#FFFFFF; --dim:#A7ADBB; --faint:#6E7583;
+    --border:rgba(255,255,255,.10);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--void);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    min-height:100svh;display:flex;flex-direction:column;align-items:center;
+    padding:32px 20px calc(40px + env(safe-area-inset-bottom));
+    background-image:
+      radial-gradient(900px 600px at 80% -10%, rgba(47,107,255,.28), transparent 60%),
+      radial-gradient(700px 500px at 10% 110%, rgba(61,225,255,.14), transparent 60%);
+    background-repeat:no-repeat;
+  }
+  .wrap{width:100%;max-width:440px;display:flex;flex-direction:column;align-items:center;text-align:center}
+  .mark{
+    width:84px;height:84px;border-radius:24px;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    box-shadow:0 18px 50px rgba(47,107,255,.45);
+  }
+  .mark svg{width:44px;height:44px}
+  .brand{margin:14px 0 0;font-size:20px;font-weight:700;letter-spacing:-.4px}
+  h1{
+    margin:26px 0 0;font-size:clamp(32px,9vw,42px);line-height:1.06;
+    font-weight:800;letter-spacing:-1.4px;
+  }
+  h1 .grad{
+    background:linear-gradient(120deg,var(--primary),var(--secondary));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .who{
+    margin:18px 0 0;display:inline-flex;align-items:center;gap:9px;
+    padding:9px 16px 9px 10px;border-radius:999px;
+    background:var(--surface);border:1px solid var(--border);
+    font-size:15px;color:var(--dim);
+  }
+  .who b{color:var(--text);font-weight:600}
+  .who .dot{width:22px;height:22px;border-radius:999px;background:linear-gradient(135deg,var(--primary),var(--secondary));display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff}
+  p.lead{margin:16px 0 0;font-size:16.5px;line-height:1.55;color:var(--dim);max-width:34ch}
+  .cta{width:100%;margin-top:30px;display:flex;flex-direction:column;gap:12px}
+  a.btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    height:58px;border-radius:18px;text-decoration:none;font-size:17px;font-weight:700;
+    letter-spacing:-.2px;transition:transform .12s ease, opacity .12s ease;
+  }
+  a.btn:active{transform:scale(.975)}
+  .btn-primary{background:#fff;color:var(--void);box-shadow:0 12px 34px rgba(0,0,0,.5)}
+  .btn-ghost{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+  .btn-soon{background:transparent;color:var(--faint);border:1px dashed var(--border);font-weight:600}
+  .btn svg{width:20px;height:20px;flex:none}
+  .feats{margin:36px 0 0;width:100%;display:grid;gap:10px;text-align:left}
+  .feat{
+    display:flex;gap:13px;align-items:flex-start;
+    background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:15px 16px;
+  }
+  .feat .ic{width:36px;height:36px;flex:none;border-radius:12px;display:grid;place-items:center;background:rgba(47,107,255,.16)}
+  .feat .ic svg{width:19px;height:19px;stroke:var(--tertiary)}
+  .feat h3{margin:0 0 3px;font-size:15px;font-weight:650;letter-spacing:-.2px}
+  .feat p{margin:0;font-size:13.5px;line-height:1.45;color:var(--dim)}
+  footer{margin-top:34px;font-size:12.5px;color:var(--faint);line-height:1.7}
+  footer a{color:var(--faint)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mark" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="#fff"><path d="M50 4 L61 39 L96 50 L61 61 L50 96 L39 61 L4 50 L39 39 Z"/></svg>
+  </div>
+  <div class="brand">Nova</div>
+
+  <h1>Dołącz do mnie<br><span class="grad">w Novie</span></h1>
+
+  <div class="who" id="who" hidden><span class="dot" id="who-initial">?</span><span><b id="who-name"></b> zaprasza Cię do Novy</span></div>
+
+  <p class="lead">Odkrywaj miasto jak mapę w grze, zbieraj pola, wykonuj misje i miej swoją paczkę na mapie — na żywo.</p>
+
+  <div class="cta">
+    <a class="btn btn-primary" id="play" href="https://play.google.com/store/apps/details?id=com.adrianciupek.nova">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3c-.3.3-.5.8-.5 1.4v16.6c0 .6.2 1.1.5 1.4l.1.1 9.3-9.3v-.2L3.7 2.2l-.1.1Zm12.1 6.1L13 5.7 4.6 1.2c-.3-.2-.6-.2-.8-.1l11.9 7.3Zm0 7.2L3.8 22.9c.2.1.5.1.8-.1L13 18.3l2.7-2.7Zm1-6.7-2.4 2.4L18 13.7l2.7-1.5c.8-.5.8-1.9 0-2.4L17.7 8.1l-1 .8Z"/></svg>
+      Pobierz z Google Play
+    </a>
+    <a class="btn btn-ghost" id="open" href="nova://">Mam już Novę — otwórz</a>
+    <span class="btn btn-soon">App Store — wkrótce</span>
+  </div>
+
+  <div class="feats">
+    <div class="feat">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 7v10l9 5 9-5V7l-9-5Z"/><path d="M12 22V12M3 7l9 5 9-5"/></svg></div>
+      <div><h3>Mgła odkryć</h3><p>Miasto zaczyna zakryte. Każde miejsce, w którym byłeś, odsłania kolejne pole.</p></div>
+    </div>
+    <div class="feat">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="10" r="3"/><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11Z"/></svg></div>
+      <div><h3>Znajomi na żywo</h3><p>Widzisz swoją paczkę na mapie. Tryb ducha jednym tapnięciem, kiedy chcesz zniknąć.</p></div>
+    </div>
+    <div class="feat">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6M12 16v6M2 12h6M16 12h6"/><circle cx="12" cy="12" r="3"/></svg></div>
+      <div><h3>Misje i poziomy</h3><p>Codzienne wyzwania, XP, passa i ponad 100 osiągnięć do zdobycia.</p></div>
+    </div>
+  </div>
+
+  <footer>
+    Nova · Your life, mapped.<br>
+    <a href="../privacy.html">Prywatność</a> · <a href="../terms.html">Regulamin</a> · <a href="../support.html">Pomoc</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var p = new URLSearchParams(location.search);
+  var u = (p.get('u') || '').replace(/[^A-Za-z0-9_.-]/g, '').slice(0, 24);
+  if (u) {
+    document.getElementById('who-name').textContent = '@' + u;
+    document.getElementById('who-initial').textContent = u.charAt(0).toUpperCase();
+    document.getElementById('who').hidden = false;
+    document.title = '@' + u + ' zaprasza Cię do Novy';
+    // Deep-link straight to their profile when Nova is already installed.
+    document.getElementById('open').href = 'nova://u/' + u;
+  }
+})();
+</script>
+</body>
+</html>
