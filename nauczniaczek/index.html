@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nauczniaczek — Polityka prywatności</title>
+    <style>
+      :root { color-scheme: light; }
+      body {
+        margin: 0;
+        padding: 32px 20px 64px;
+        font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        color: #2b2138;
+        background: #fff7ec;
+      }
+      main { max-width: 720px; margin: 0 auto; }
+      h1 { font-size: 30px; line-height: 1.25; margin: 0 0 4px; }
+      h2 { font-size: 20px; margin: 32px 0 8px; }
+      .sub { color: #6b6280; margin: 0 0 28px; }
+      .card {
+        background: #fff;
+        border: 2px solid rgba(43, 33, 56, 0.08);
+        border-radius: 20px;
+        padding: 20px 22px;
+        margin: 18px 0;
+      }
+      .big { font-size: 19px; font-weight: 700; }
+      ul { padding-left: 22px; }
+      li { margin: 6px 0; }
+      footer { margin-top: 40px; color: #6b6280; font-size: 14px; }
+      a { color: #6c4df6; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Polityka prywatności</h1>
+      <p class="sub">Nauczniaczek — Matematyczna Przygoda · obowiązuje od 15 września 2026</p>
+
+      <div class="card">
+        <p class="big">Krótko: ta aplikacja nie zbiera o Tobie żadnych danych.</p>
+        <p>
+          Nauczniaczek działa w całości na Twoim urządzeniu. Nie ma kont, logowania, reklam ani
+          analityki. Nie prowadzimy serwera, na który mogłyby trafić jakiekolwiek dane dziecka.
+        </p>
+      </div>
+
+      <h2>Jakie informacje powstają w aplikacji</h2>
+      <p>
+        Żeby gra działała, aplikacja zapisuje w pamięci telefonu kilka rzeczy, które podaje lub
+        wypracowuje samo dziecko:
+      </p>
+      <ul>
+        <li>imię (dowolne — może być zdrobnienie lub pseudonim) oraz wybrany awatar i klasa,</li>
+        <li>postępy: zdobyte gwiazdki, punkty, monety, odznaki i wykonane misje,</li>
+        <li>statystyki nauki: liczba rozwiązanych zadań, skuteczność w poszczególnych tematach,
+            czas nauki i liczba dni z rzędu,</li>
+        <li>ustawienia: dźwięk, wibracje, motyw, godzina przypomnienia i cel dzienny.</li>
+      </ul>
+      <p>
+        Wszystko to jest przechowywane wyłącznie lokalnie (mechanizm <em>AsyncStorage</em>
+        systemu). Te dane nigdy nie opuszczają urządzenia — ani do nas, ani do nikogo innego.
+      </p>
+
+      <h2>Czego aplikacja NIE robi</h2>
+      <ul>
+        <li>nie wyświetla reklam i nie zawiera żadnych sieci reklamowych,</li>
+        <li>nie oferuje zakupów w aplikacji ani płatności,</li>
+        <li>nie korzysta z analityki, narzędzi śledzących ani raportowania awarii,</li>
+        <li>nie prosi o dostęp do lokalizacji, kontaktów, kamery, mikrofonu ani plików,</li>
+        <li>nie tworzy profili użytkowników i nie udostępnia niczego osobom trzecim,</li>
+        <li>nie wymaga połączenia z internetem — cała nauka działa offline.</li>
+      </ul>
+
+      <h2>Jedyne połączenie z siecią</h2>
+      <p>
+        Przy uruchomieniu aplikacja sprawdza u dostawcy aktualizacji (Expo,
+        <em>u.expo.dev</em>), czy jest dostępna nowsza wersja — dzięki temu poprawki docierają
+        szybko. W tym zapytaniu przekazywany jest wyłącznie numer wersji aplikacji i typ systemu.
+        <strong>Nie są wysyłane żadne dane o dziecku</strong>: ani imię, ani wyniki, ani
+        statystyki. Jeśli telefon jest offline, aplikacja po prostu działa dalej na wersji, którą
+        ma zainstalowaną.
+      </p>
+
+      <h2>Uprawnienia</h2>
+      <p>
+        Aplikacja prosi o jedno uprawnienie: <strong>powiadomienia</strong>. Służy ono wyłącznie do
+        codziennego przypomnienia o nauce, które planowane jest lokalnie na urządzeniu. Nie
+        wysyłamy powiadomień push i nie zbieramy żadnych identyfikatorów. Przypomnienie można w
+        każdej chwili wyłączyć w Ustawieniach, a uprawnienia odebrać w ustawieniach systemu.
+      </p>
+
+      <h2>Dzieci</h2>
+      <p>
+        Aplikacja jest przeznaczona dla dzieci i zaprojektowana zgodnie z zasadami Google Play dla
+        rodzin. Nie zbiera danych osobowych dzieci, nie zawiera reklam ani zakupów, a jedyne linki
+        wychodzące (udostępnienie aplikacji i e-mail kontaktowy) wymagają świadomego działania.
+      </p>
+
+      <h2>Usuwanie danych</h2>
+      <p>
+        Dane usuwa się na dwa sposoby: przyciskiem <strong>„Skasuj wszystkie postępy”</strong> w
+        Strefie Rodzica albo przez odinstalowanie aplikacji. W obu przypadkach kasowane jest
+        wszystko i nie da się tego cofnąć. Nie musisz pisać do nas z prośbą o usunięcie danych —
+        my ich po prostu nie mamy.
+      </p>
+
+      <h2>Zmiany</h2>
+      <p>
+        Jeśli kiedykolwiek zmienimy sposób działania aplikacji w sposób dotyczący prywatności,
+        zaktualizujemy tę stronę i podamy nową datę obowiązywania.
+      </p>
+
+      <h2>Kontakt</h2>
+      <p>
+        Pytania o prywatność: <a href="mailto:adrian.novision@gmail.com">adrian.novision@gmail.com</a>
+      </p>
+
+      <footer>Nauczniaczek · com.adrianciupek.nauczniaczek</footer>
+    </main>
+  </body>
+</html>
