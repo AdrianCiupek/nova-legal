@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Nova — konto</title>
+<title>Konto — potwierdzenie</title>
 <meta name="theme-color" content="#06070C">
 <!--
   Strona, na którą wraca link z maila Novej (potwierdzenie adresu, zmiana hasła).
@@ -82,9 +82,9 @@
 
   <div id="badge" class="badge ok" aria-hidden="true">✓</div>
   <h1 id="title">Adres potwierdzony</h1>
-  <p id="lead">Wszystko gotowe. Wróć do aplikacji Nova — Twoje konto już działa.</p>
+  <p id="lead">Wszystko gotowe. Wróć do aplikacji — Twoje konto już działa.</p>
 
-  <a id="open" class="btn" href="nova://">Otwórz Novą</a>
+  <a id="open" class="btn" href="#">Otwórz aplikację</a>
 
   <div id="desktop" class="note" hidden></div>
 
@@ -99,6 +99,26 @@
   var q = new URLSearchParams(location.search);
   var h = new URLSearchParams(location.hash.replace(/^#/, ''));
   function get(k) { return q.get(k) || h.get(k) || ''; }
+
+  // Jedna strona dla wszystkich aplikacji — ?app= wybiera markę i adres powrotu.
+  var APPS = {
+    nova: { name: 'Nova', deep: 'nova://auth/callback', logo: '../email/nova.png',
+            c1: '#2F6BFF', c2: '#8B5CFF', mail: 'adrian.novision@gmail.com' },
+    kelner: { name: 'Kelner PRO', deep: 'kelnerpro://auth/confirm', logo: '../email/kelner.png',
+              c1: '#FFD700', c2: '#FFB800', ink: '#1a1a1a', mail: 'support@kelnerpro.pl' }
+  };
+  var app = APPS[get('app')] || APPS.nova;
+  document.title = app.name + ' — konto';
+  var root = document.documentElement.style;
+  root.setProperty('--primary', app.c1);
+  root.setProperty('--secondary', app.c2);
+  document.querySelector('.brand').textContent = app.name.toUpperCase();
+  document.querySelector('.mark').innerHTML = '<img src="' + app.logo + '" alt="" width="72" height="72" style="border-radius:22px;display:block">';
+  var btnEl = document.getElementById('open');
+  btnEl.style.background = 'linear-gradient(135deg,' + app.c1 + ',' + app.c2 + ')';
+  if (app.ink) btnEl.style.color = app.ink;
+  document.querySelector('.foot a').href = 'mailto:' + app.mail;
+  document.querySelector('.foot a').textContent = app.mail;
 
   var code = get('code');
   var type = get('t') || get('type');
@@ -115,24 +135,29 @@
   }
 
   // Link do aplikacji: przekazujemy jednorazowy kod, żeby Nova sama dokończyła logowanie.
-  var deep = 'nova://auth/callback';
+  var deep = app.deep;
   var params = [];
   if (code) params.push('code=' + encodeURIComponent(code));
   if (type) params.push('type=' + encodeURIComponent(type));
   if (params.length) deep += '?' + params.join('&');
+  // Starszy przepływ (bez PKCE) oddaje tokeny w # — przekazujemy je dalej bez zmian.
+  if (!code && h.get('access_token')) deep += location.hash;
   $('open').href = deep;
 
   if (err) {
     var expired = /expired|otp/i.test(errCode + ' ' + err);
     set('warn', '!', expired ? 'Ten link już wygasł' : 'Link nie zadziałał',
       expired
-        ? 'Linki z maila działają przez godzinę i tylko raz. Otwórz Novą i poproś o nowy — przyjdzie w kilka sekund.'
-        : 'Coś poszło nie tak po drodze. Otwórz Novą i spróbuj jeszcze raz — możesz też wpisać 6-cyfrowy kod z maila.');
-    $('open').href = 'nova://';
-    $('open').textContent = 'Otwórz Novą';
-  } else if (type === 'recovery') {
-    set('key', '🔑', 'Ustaw nowe hasło', 'Otwórz Novą — od razu pokażemy pole na nowe hasło.');
-    $('open').textContent = 'Ustaw hasło w Novej';
+        ? 'Linki z maila działają przez godzinę i tylko raz. Otwórz ' + app.name + ' i poproś o nowy — przyjdzie w kilka sekund.'
+        : 'Coś poszło nie tak po drodze. Otwórz ' + app.name + ' i spróbuj jeszcze raz — możesz też wpisać kod z maila.');
+    $('open').href = app.deep;
+    $('open').textContent = 'Otwórz aplikację';
+  } else if (type !== 'recovery') {
+    $('lead').textContent = 'Wszystko gotowe. Wróć do aplikacji ' + app.name + ' — Twoje konto już działa.';
+  }
+  if (!err && type === 'recovery') {
+    set('key', '🔑', 'Ustaw nowe hasło', 'Otwórz aplikację ' + app.name + ' — od razu pokażemy pole na nowe hasło.');
+    $('open').textContent = 'Ustaw nowe hasło';
   }
 
   if (!mobile) {
@@ -140,10 +165,10 @@
     var d = $('desktop');
     d.hidden = false;
     d.innerHTML = err
-      ? '<b>Otwórz Novą na telefonie</b> i poproś o nowy link albo kod.'
+      ? '<b>Otwórz ' + app.name + ' na telefonie</b> i poproś o nowy link albo kod.'
       : type === 'recovery'
-        ? '<b>Ten link otwórz na telefonie z Novą</b> — albo wpisz w aplikacji 6-cyfrowy kod z tego samego maila.'
-        : '<b>Możesz zamknąć tę kartę.</b> Wróć do Novej na telefonie — jeśli czeka tam ekran potwierdzenia, przejdzie dalej sam.';
+        ? '<b>Ten link otwórz na telefonie z aplikacją ' + app.name + '</b> — albo wpisz w aplikacji kod z tego samego maila.'
+        : '<b>Możesz zamknąć tę kartę.</b> Wróć do aplikacji ' + app.name + ' na telefonie — jeśli czeka tam ekran potwierdzenia, przejdzie dalej sam.';
     return;
   }
 
