@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Nova — konto</title>
+<meta name="theme-color" content="#06070C">
+<!--
+  Strona, na którą wraca link z maila Novej (potwierdzenie adresu, zmiana hasła).
+  Działa na każdym urządzeniu:
+  - na telefonie z Novą przekazuje jednorazowy kod do aplikacji (nova://auth/callback),
+    więc logowanie kończy się samo;
+  - na komputerze mówi po ludzku, co się stało i co zrobić dalej, zamiast
+    pokazywać pustą stronę błędu.
+  Nic tu nie jest wysyłane dalej — kod trafia wyłącznie do aplikacji Nova.
+-->
+<style>
+  :root{
+    --void:#06070C; --surface:#151821; --elevated:#1F232E;
+    --primary:#2F6BFF; --secondary:#8B5CFF; --ok:#3DDC97; --warn:#FFB547;
+    --text:#FFFFFF; --dim:#A7ADBB; --faint:#6E7583; --border:rgba(255,255,255,.10);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--void);color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;min-height:100svh;
+    display:flex;align-items:center;justify-content:center;
+    padding:32px 16px calc(32px + env(safe-area-inset-bottom));
+    background-image:
+      radial-gradient(900px 600px at 80% -10%, rgba(47,107,255,.26), transparent 60%),
+      radial-gradient(700px 500px at 10% 110%, rgba(139,92,255,.16), transparent 60%);
+    background-repeat:no-repeat;
+  }
+  .card{
+    width:100%;max-width:440px;text-align:center;
+    background:rgba(21,24,33,.72);border:1px solid var(--border);border-radius:28px;
+    padding:36px 24px 28px;backdrop-filter:blur(8px);
+    box-shadow:0 30px 80px rgba(0,0,0,.45);
+  }
+  .mark{
+    width:72px;height:72px;border-radius:22px;margin:0 auto;display:grid;place-items:center;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    box-shadow:0 16px 44px rgba(47,107,255,.45);
+  }
+  .mark svg{width:36px;height:36px}
+  .brand{margin:12px 0 0;font-size:15px;font-weight:700;letter-spacing:.3px;color:var(--dim)}
+  .badge{
+    width:56px;height:56px;border-radius:50%;margin:26px auto 0;display:grid;place-items:center;
+    font-size:26px;font-weight:800;
+  }
+  .badge.ok{background:rgba(61,220,151,.14);color:var(--ok);border:1px solid rgba(61,220,151,.35)}
+  .badge.warn{background:rgba(255,181,71,.12);color:var(--warn);border:1px solid rgba(255,181,71,.35)}
+  .badge.key{background:rgba(47,107,255,.14);color:#8FB0FF;border:1px solid rgba(47,107,255,.4)}
+  h1{margin:18px 0 0;font-size:28px;line-height:1.15;letter-spacing:-.6px;font-weight:800}
+  p{margin:12px 0 0;font-size:16px;line-height:1.55;color:var(--dim)}
+  .btn{
+    display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+    margin-top:26px;padding:17px 20px;border-radius:18px;border:0;cursor:pointer;
+    font:700 17px/1 inherit;font-family:inherit;color:#fff;text-decoration:none;
+    background:linear-gradient(135deg,var(--primary),#5B7CFF);
+    box-shadow:0 12px 30px rgba(47,107,255,.4);
+  }
+  .note{
+    margin-top:22px;padding:14px 16px;border-radius:16px;text-align:left;
+    background:var(--elevated);border:1px solid var(--border);font-size:14px;line-height:1.5;color:var(--dim)
+  }
+  .note b{color:var(--text)}
+  .foot{margin-top:24px;font-size:12px;color:var(--faint)}
+  .foot a{color:var(--faint)}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="card">
+  <div class="mark" aria-hidden="true">
+    <svg viewBox="0 0 100 100" fill="#fff"><path d="M50 4 L61 39 L96 50 L61 61 L50 96 L39 61 L4 50 L39 39 Z"/></svg>
+  </div>
+  <div class="brand">NOVA</div>
+
+  <div id="badge" class="badge ok" aria-hidden="true">✓</div>
+  <h1 id="title">Adres potwierdzony</h1>
+  <p id="lead">Wszystko gotowe. Wróć do aplikacji Nova — Twoje konto już działa.</p>
+
+  <a id="open" class="btn" href="nova://">Otwórz Novą</a>
+
+  <div id="desktop" class="note" hidden></div>
+
+  <div class="foot">
+    To nie Ty prosisz o ten link? Po prostu zamknij tę stronę.<br>
+    Pomoc: <a href="mailto:adrian.novision@gmail.com">adrian.novision@gmail.com</a>
+  </div>
+</main>
+
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var h = new URLSearchParams(location.hash.replace(/^#/, ''));
+  function get(k) { return q.get(k) || h.get(k) || ''; }
+
+  var code = get('code');
+  var type = get('t') || get('type');
+  var errCode = get('error_code');
+  var err = get('error') || errCode;
+  var mobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  var $ = function (id) { return document.getElementById(id); };
+  function set(badgeClass, badge, title, lead) {
+    $('badge').className = 'badge ' + badgeClass;
+    $('badge').textContent = badge;
+    $('title').textContent = title;
+    $('lead').textContent = lead;
+  }
+
+  // Link do aplikacji: przekazujemy jednorazowy kod, żeby Nova sama dokończyła logowanie.
+  var deep = 'nova://auth/callback';
+  var params = [];
+  if (code) params.push('code=' + encodeURIComponent(code));
+  if (type) params.push('type=' + encodeURIComponent(type));
+  if (params.length) deep += '?' + params.join('&');
+  $('open').href = deep;
+
+  if (err) {
+    var expired = /expired|otp/i.test(errCode + ' ' + err);
+    set('warn', '!', expired ? 'Ten link już wygasł' : 'Link nie zadziałał',
+      expired
+        ? 'Linki z maila działają przez godzinę i tylko raz. Otwórz Novą i poproś o nowy — przyjdzie w kilka sekund.'
+        : 'Coś poszło nie tak po drodze. Otwórz Novą i spróbuj jeszcze raz — możesz też wpisać 6-cyfrowy kod z maila.');
+    $('open').href = 'nova://';
+    $('open').textContent = 'Otwórz Novą';
+  } else if (type === 'recovery') {
+    set('key', '🔑', 'Ustaw nowe hasło', 'Otwórz Novą — od razu pokażemy pole na nowe hasło.');
+    $('open').textContent = 'Ustaw hasło w Novej';
+  }
+
+  if (!mobile) {
+    $('open').hidden = true;
+    var d = $('desktop');
+    d.hidden = false;
+    d.innerHTML = err
+      ? '<b>Otwórz Novą na telefonie</b> i poproś o nowy link albo kod.'
+      : type === 'recovery'
+        ? '<b>Ten link otwórz na telefonie z Novą</b> — albo wpisz w aplikacji 6-cyfrowy kod z tego samego maila.'
+        : '<b>Możesz zamknąć tę kartę.</b> Wróć do Novej na telefonie — jeśli czeka tam ekran potwierdzenia, przejdzie dalej sam.';
+    return;
+  }
+
+  // Na telefonie próbujemy od razu przełączyć do aplikacji; przycisk zostaje na wypadek,
+  // gdyby przeglądarka zablokowała automatyczne otwarcie.
+  if (!err) setTimeout(function () { location.href = $('open').href; }, 350);
+})();
+</script>
+</body>
+</html>
