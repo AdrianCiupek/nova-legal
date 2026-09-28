@@ -105,7 +105,7 @@
     nova: { name: 'Nova', deep: 'nova://auth/callback', logo: '../email/nova.png',
             c1: '#2F6BFF', c2: '#8B5CFF', mail: 'adrian.novision@gmail.com' },
     kelner: { name: 'Kelner PRO', deep: 'kelnerpro://auth/confirm', logo: '../email/kelner.png',
-              c1: '#FFD700', c2: '#FFB800', ink: '#1a1a1a', mail: 'support@kelnerpro.pl' }
+              c1: '#3DD69A', c2: '#2BB583', ink: '#04170F', mail: 'support@kelnerpro.pl' }
   };
   var app = APPS[get('app')] || APPS.nova;
   document.title = app.name + ' — konto';
@@ -152,6 +152,9 @@
         : 'Coś poszło nie tak po drodze. Otwórz ' + app.name + ' i spróbuj jeszcze raz — możesz też wpisać kod z maila.');
     $('open').href = app.deep;
     $('open').textContent = 'Otwórz aplikację';
+  } else if (type === 'login') {
+    set('key', '🔐', 'Kończymy logowanie', 'Otwórz aplikację ' + app.name + ' — zalogujemy Cię od razu.');
+    $('open').textContent = 'Otwórz ' + app.name;
   } else if (type !== 'recovery') {
     $('lead').textContent = 'Wszystko gotowe. Wróć do aplikacji ' + app.name + ' — Twoje konto już działa.';
   }
@@ -166,6 +169,8 @@
     d.hidden = false;
     d.innerHTML = err
       ? '<b>Otwórz ' + app.name + ' na telefonie</b> i poproś o nowy link albo kod.'
+      : type === 'login'
+        ? '<b>Wpisz w aplikacji ' + app.name + ' 6-cyfrowy kod z tego samego maila.</b> Link logowania działa tylko na telefonie, na którym się logujesz.'
       : type === 'recovery'
         ? '<b>Ten link otwórz na telefonie z aplikacją ' + app.name + '</b> — albo wpisz w aplikacji kod z tego samego maila.'
         : '<b>Możesz zamknąć tę kartę.</b> Wróć do aplikacji ' + app.name + ' na telefonie — jeśli czeka tam ekran potwierdzenia, przejdzie dalej sam.';
